@@ -62,6 +62,9 @@ public class SecurityConfig {
                         // Allow preflight requests
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
+                        // 🆕 Actuator endpoints (for Kubernetes health probes)
+                        .requestMatchers("/actuator/**").permitAll()
+
                         // Public auth APIs
                         .requestMatchers("/auth/**").permitAll()
 

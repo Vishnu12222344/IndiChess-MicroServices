@@ -29,6 +29,11 @@ spec:
               value: "Reddy@2003PP"
             - name: EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE
               value: "http://eureka-server:8761/eureka/"
+            # Add this to disable security for actuator endpoints
+            - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
+              value: "health,info"
+            - name: MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS
+              value: "always"
           ports:
             - containerPort: 8085
           readinessProbe:
@@ -37,12 +42,16 @@ spec:
               port: 8085
             initialDelaySeconds: 60
             periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
           livenessProbe:
             httpGet:
               path: /actuator/health
               port: 8085
             initialDelaySeconds: 90
             periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
 ---
 apiVersion: v1
 kind: Service
